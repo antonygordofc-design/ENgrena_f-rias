@@ -962,7 +962,7 @@ function render(){
 const firebaseConfig = {
   apiKey: "AIzaSyCQ-wEckwV9AJ4dpV6TWD_p3E4BBRKRVc0",
   authDomain: "engrena-ferias.firebaseapp.com",
-  databaseURL: "https://engrena-ferias-default-rtdb.firebaseio.com/",
+  databaseURL: "https://engrena-ferias-default-rtdb.firebaseio.com",
   projectId: "engrena-ferias",
   storageBucket: "engrena-ferias.firebasestorage.app",
   messagingSenderId: "738439878786",
