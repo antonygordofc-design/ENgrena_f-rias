@@ -958,7 +958,11 @@ function render(){
   window.scrollTo(0,0);
 };
 
-// -----------------banco de dados---------------------
+// 1. IMPORTAÇÕES DO FIREBASE (Sempre no topo do arquivo)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+// 2. CONFIGURAÇÃO DO SEU PROJETO (Corrigido com a databaseURL)
 const firebaseConfig = {
   apiKey: "AIzaSyCQ-wEckwV9AJ4dpV6TWD_p3E4BBRKRVc0",
   authDomain: "engrena-ferias.firebaseapp.com",
@@ -968,6 +972,63 @@ const firebaseConfig = {
   messagingSenderId: "738439878786",
   appId: "1:738439878786:web:a68991b186debb2f277c9b"
 };
+
+// 3. INICIALIZAÇÃO
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// 4. VARIÁVEL GLOBAL DO SEU SITE (Onde vamos guardar o que vem da internet)
+let dadoCompartilhado = 0; 
+
+// 5. FUNÇÃO PARA RENDERIZAR A TELA
+// Altere o "main" ou os IDs para bater com o seu arquivo index.html
+function render() {
+  const main = document.getElementById("main") || document.body; 
+  
+  main.innerHTML = `
+    <div style="text-align: center; font-family: sans-serif; margin-top: 50px;">
+      <h1>Banco de Dados Compartilhado</h1>
+      <p style="font-size: 24px;">Valor Atual: <strong>${dadoCompartilhado}</strong></p>
+      <button id="btnAumentar" style="padding: 10px 20px; font-size: 18px; cursor: pointer;">
+        Aumentar +1
+      </button>
+    </div>
+  `;
+
+  // Adiciona o evento no botão que acabou de ser desenhado na tela
+  document.getElementById("btnAumentar").addEventListener("click", () => {
+    let novoValor = Number(dadoCompartilhado) + 1;
+    enviarDadosParaOBanco(novoValor);
+  });
+}
+
+// 6. FUNÇÃO QUE ENVIA DADOS PARA O BANCO (Quando clica no botão)
+function enviarDadosParaOBanco(valor) {
+  set(ref(db, '/'), valor)
+    .then(() => console.log("Enviado com sucesso:", valor))
+    .catch((error) => console.error("Erro ao enviar:", error));
+}
+
+// 7. ESCUTADOR EM TEMPO REAL (O coração do projeto)
+// Sempre que o valor mudar no Firebase (por qualquer computador), essa função roda sozinha
+onValue(ref(db, '/'), (snapshot) => {
+  const dadosDoBanco = snapshot.val();
+  
+  if (dadosDoBanco !== null) {
+    console.log("O Firebase avisou que o dado mudou para:", dadosDoBanco);
+    
+    // Atualiza a nossa variável local com o valor que veio da internet
+    dadoCompartilhado = dadosDoBanco; 
+    
+    // Redesenha a tela com o novo valor
+    render(); 
+  }
+});
+
+// 8. INICIALIZAÇÃO DA TELA ASSIM QUE CARREGAR A PÁGINA
+window.addEventListener("DOMContentLoaded", () => {
+  render();
+});
 
 window.addEventListener("hashchange", render);
 window.addEventListener("DOMContentLoaded", ()=>{ lucide.createIcons(); render(); });
