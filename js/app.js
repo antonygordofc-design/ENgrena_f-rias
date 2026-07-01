@@ -958,6 +958,16 @@ function render(){
   window.scrollTo(0,0);
 }
 
+// -----------------banco de dados---------------------
+const firebaseConfig = {
+  apiKey: "AIzaSyCQ-wEckwV9AJ4dpV6TWD_p3E4BBRKRVc0",
+  authDomain: "engrena-ferias.firebaseapp.com",
+  projectId: "engrena-ferias",
+  storageBucket: "engrena-ferias.firebasestorage.app",
+  messagingSenderId: "738439878786",
+  appId: "1:738439878786:web:a68991b186debb2f277c9b"
+}
+
 window.addEventListener("hashchange", render);
 window.addEventListener("DOMContentLoaded", ()=>{ lucide.createIcons(); render(); });
 /*
