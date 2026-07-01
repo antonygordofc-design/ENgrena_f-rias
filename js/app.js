@@ -959,6 +959,8 @@ function render(){
 }
 
 // -----------------banco de dados---------------------
+
+const app = initializeApp(firebaseConfig);
 const firebaseConfig = {
   apiKey: "AIzaSyCQ-wEckwV9AJ4dpV6TWD_p3E4BBRKRVc0",
   authDomain: "engrena-ferias.firebaseapp.com",
