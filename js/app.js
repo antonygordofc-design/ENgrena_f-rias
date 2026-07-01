@@ -969,7 +969,6 @@ const firebaseConfig = {
   appId: "1:738439878786:web:a68991b186debb2f277c9b"
 };
 
-
 window.addEventListener("hashchange", render);
 window.addEventListener("DOMContentLoaded", ()=>{ lucide.createIcons(); render(); });
 /*
